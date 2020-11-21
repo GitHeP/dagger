@@ -1,6 +1,6 @@
 package com.github.dagger.lang;
 
-import com.github.dagger.reflect.Reflectable;
+import com.github.dagger.reflect.Reflexible;
 
 /**
  * @author he peng
@@ -23,7 +23,7 @@ public abstract class Throwables {
     }
 
     public static void throwWrappedException(Throwable throwable , Class<? extends RuntimeException> wrap) {
-        throw Reflectable.construct(wrap , throwable);
+        throw Reflexible.construct(wrap , throwable);
     }
 
     public static <X extends Throwable> void throwIfInstanceOf(
@@ -34,6 +34,6 @@ public abstract class Throwables {
     }
 
     public static <X extends RuntimeException> X wrap(Throwable throwable , Class<X> wrap) {
-        return Reflectable.construct(wrap , throwable);
+        return Reflexible.construct(wrap , throwable);
     }
 }

@@ -11,7 +11,7 @@ import java.lang.reflect.Constructor;
  * @author he peng
  * @date 2020/11/21
  */
-public abstract class Reflectable {
+public abstract class Reflexible {
 
     private static final Class<ReflectException> THROWABLE_CLASS = ReflectException.class;
 
