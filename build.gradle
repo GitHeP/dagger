@@ -3,12 +3,19 @@ plugins {
 }
 
 group 'com.github'
-version '1.0-SNAPSHOT'
+version '1.0.0'
+
+def javaVersion = 1.8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 
 repositories {
-
+    mavenLocal()
+    maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
+    jcenter()
+    google()
 }
 
 dependencies {
