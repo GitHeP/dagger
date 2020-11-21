@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+### hepeng template
+# he peng git .ignore template
+.idea
+*.iml
+out
+gen
+target
