@@ -37,11 +37,11 @@ public abstract class Reflexible {
         return construct(cls , true , objs);
     }
 
-
     public static <T> T construct(Class<T> cls , boolean declared , Object ... objs) {
-        Class<?>[] classes = BeanUtils.getClassArray(objs);
+        Class<?>[] classes = BeanUtils.classArray(objs);
         try {
             Constructor<T> constructor = declared ? cls.getDeclaredConstructor(classes) : cls.getConstructor(classes);
+            constructor.setAccessible(true);
             return constructor.newInstance(objs);
         } catch (Exception e) {
             throw Throwables.wrap(e , THROWABLE_CLASS);
