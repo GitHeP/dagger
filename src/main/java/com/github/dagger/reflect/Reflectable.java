@@ -167,7 +167,7 @@ public abstract class Reflectable {
 
     public static <T> T construct(Class<T> cls , boolean declared , Object ... args) {
         Assert.notNull(cls , "cls must not be null");
-        return newInstance(constructor(cls, declared, BeanUtils.classArray(args)) , args);
+        return newInstance(constructor(cls, declared, BeanUtils.defaultClassArray(null , args)) , args);
     }
 
     public static <T> T construct(Class<T> cls , boolean declared , Class<?>[] argClasses , Object ... args) {
@@ -176,26 +176,51 @@ public abstract class Reflectable {
         return newInstance(constructor(cls, declared, argClasses) , args);
     }
 
+    public static <T> Constructor<T> constructor(Class<T> cls) {
+        Assert.notNull(cls , "cls must not be null");
+        return constructor(cls , null);
+    }
+
     public static <T> Constructor<T> constructor(Class<T> cls , Object ... args) {
         Assert.notNull(cls , "cls must not be null");
-        return constructor(cls , true , BeanUtils.classArray(args));
+        return constructor(cls , true , args);
     }
 
-
+    /**
+     * 获取指定参数列表的构造器 {@link Constructor}
+     * @param cls               构造器所在的类
+     * @param declared          {@link Class#getDeclaredConstructor(Class[])}
+     * @param args              构造器需要的参数
+     * @param <T>
+     * @return              返回一个可访问的构造器实例
+     */
     public static <T> Constructor<T> constructor(Class<T> cls , boolean declared , Object ... args) {
         Assert.notNull(cls , "cls must not be null");
-        return constructor(cls , declared , BeanUtils.classArray(args));
+        return constructor(cls , declared , BeanUtils.defaultClassArray(null , args));
     }
 
+    /**
+     * 获取指定参数列表的构造器 {@link Constructor}
+     * @param cls               构造器所在的类
+     * @param argClasses        构造器参数列表
+     * @param <T>
+     * @return              返回一个可访问的构造器实例
+     */
     public static <T> Constructor<T> constructor(Class<T> cls , Class<?>[] argClasses) {
         Assert.notNull(cls , "cls must not be null");
-        Assert.notEmpty(argClasses , "argClasses must not be empty");
         return constructor(cls , true , argClasses);
     }
 
+    /**
+     * 获取指定参数列表的构造器 {@link Constructor}
+     * @param cls               构造器所在的类
+     * @param declared          {@link Class#getDeclaredConstructor(Class[])}
+     * @param argClasses        构造器参数列表
+     * @param <T>
+     * @return              返回一个可访问的构造器实例
+     */
     public static <T> Constructor<T> constructor(Class<T> cls , boolean declared , Class<?>[] argClasses) {
         Assert.notNull(cls , "cls must not be null");
-        Assert.notEmpty(argClasses , "argClasses must not be empty");
         try {
             Constructor<T> constructor = declared ? cls.getDeclaredConstructor(argClasses) : cls.getConstructor(argClasses);
             return accessible(constructor);
@@ -204,18 +229,38 @@ public abstract class Reflectable {
         }
     }
 
+    /**
+     * 获取无参数的的 {@link Method}
+     * @param cls       方法所在的类
+     * @param method    函数名称
+     * @return  返回可访问的 {@link Method} 实例.
+     */
     public static Method method(Class<?> cls , String method) {
-        return method(cls , method , null , true);
+        return method(cls , method , null);
     }
 
+    /**
+     * 获取指定的 {@link Method}
+     * @param cls       方法所在的类
+     * @param method    函数名称
+     * @param classes   函数参数列表
+     * @return  返回可访问的 {@link Method} 实例.
+     */
     public static Method method(Class<?> cls , String method , Class<?>[] classes) {
         Assert.notNull(cls , "cls must not be null");
-        Assert.notEmpty(classes , "classes must not be empty");
         Assert.notBlank(method , "method must no be blank");
 
         return method(cls , method , classes , true);
     }
 
+    /**
+     * 获取指定的 {@link Method}
+     * @param cls       方法所在的类
+     * @param method    函数名称
+     * @param classes   函数参数列表
+     * @param declared  是否获取 DeclaredMethod {@link Class#getDeclaredMethod(String, Class[])}
+     * @return  返回可访问的 {@link Method} 实例.
+     */
     public static Method method(Class<?> cls , String method , Class<?>[] classes , boolean declared) {
         Assert.notNull(cls , "cls must not be null");
         Assert.notBlank(method , "method must no be blank");
@@ -228,6 +273,12 @@ public abstract class Reflectable {
         }
     }
 
+    /**
+     * 设置 accessible 为 true. {@link AccessibleObject#setAccessible(boolean)}
+     * @param accessibleObject
+     * @param <T>
+     * @return
+     */
     public static <T extends AccessibleObject> T accessible(T accessibleObject) {
         Assert.notNull(accessibleObject , "accessibleObject must not be null");
         if (Assert.isFalse(accessibleObject::isAccessible)) {
