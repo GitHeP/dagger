@@ -1,6 +1,6 @@
 package com.github.dagger.lang;
 
-import com.github.dagger.reflect.Reflexible;
+import com.github.dagger.reflect.Reflectable;
 
 /**
  * @author he peng
@@ -8,10 +8,6 @@ import com.github.dagger.reflect.Reflexible;
  */
 public abstract class Throwables {
 
-    /**
-     * 如果是 {@link RuntimeException} 就抛出
-     * @param throwable
-     */
     public static void throwIfRuntimeException(Throwable throwable) {
         if (throwable instanceof RuntimeException) {
             throw (RuntimeException) throwable;
@@ -23,7 +19,6 @@ public abstract class Throwables {
     }
 
     public static void throwWrappedException(Throwable throwable , Class<? extends RuntimeException> wrap) {
-        throw Reflexible.construct(wrap , throwable);
     }
 
     public static <X extends Throwable> void throwIfInstanceOf(
@@ -34,6 +29,6 @@ public abstract class Throwables {
     }
 
     public static <X extends RuntimeException> X wrap(Throwable throwable , Class<X> wrap) {
-        return Reflexible.construct(wrap , throwable);
+        return Reflectable.construct(wrap , new Class<?>[]{Throwable.class} , throwable);
     }
 }

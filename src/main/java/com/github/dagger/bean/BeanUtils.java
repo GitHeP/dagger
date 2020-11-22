@@ -11,7 +11,7 @@ import java.util.Collection;
 public abstract class BeanUtils {
 
     public static Class<?>[] classArray(Collection<Object> objs) {
-        Assert.notNull(objs , "objList must not be null");
+        Assert.notNull(objs , "objs must not be null");
         return classArray(objs.toArray());
     }
 
