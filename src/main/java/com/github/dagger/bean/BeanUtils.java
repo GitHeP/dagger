@@ -11,10 +11,20 @@ import java.util.Objects;
  */
 public abstract class BeanUtils {
 
+    /**
+     * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素
+     * @param objects
+     * @return
+     */
     public static Class<?>[] classArray(Collection<Object> objects) {
         return classArray(objects.toArray());
     }
 
+    /**
+     * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素
+     * @param objects
+     * @return
+     */
     public static Class<?>[] classArray(Object ... objects) {
         Assert.notNull(objects , "objects must not be null");
         Class<?>[] classes = new Class[objects.length];
@@ -26,15 +36,29 @@ public abstract class BeanUtils {
         return classes;
     }
 
+    /**
+     * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素.
+     * 当传入的集合是 null 或者 size = 0 时,会将传入的 Class 数组作为返回值返回。
+     * @param returnWhenNull
+     * @param objects
+     * @return
+     */
     public static Class<?>[] defaultClassArray(Class<?>[] returnWhenNull , Collection<Object> objects) {
-        if (Objects.isNull(objects)) {
+        if (Objects.isNull(objects) || objects.size() == 0) {
             return returnWhenNull;
         }
         return classArray(objects);
     }
 
+    /**
+     * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素.
+     * 当传入的数组是 null 或者 length = 0 时,会将传入的 Class 数组作为返回值返回。
+     * @param returnWhenNull
+     * @param objects
+     * @return
+     */
     public static Class<?>[] defaultClassArray(Class<?>[] returnWhenNull , Object ... objects) {
-        if (Objects.isNull(objects)) {
+        if (Objects.isNull(objects) || objects.length == 0) {
             return returnWhenNull;
         }
         return classArray(objects);
