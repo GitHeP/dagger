@@ -39,13 +39,13 @@ public abstract class BeanUtils {
     /**
      * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素.
      * 当传入的集合是 null 或者 size = 0 时,会将传入的 Class 数组作为返回值返回。
-     * @param returnWhenNull
+     * @param defaultValue
      * @param objects
      * @return
      */
-    public static Class<?>[] defaultClassArray(Class<?>[] returnWhenNull , Collection<Object> objects) {
+    public static Class<?>[] defaultClassArrayIfNull(Class<?>[] defaultValue , Collection<Object> objects) {
         if (Objects.isNull(objects) || objects.size() == 0) {
-            return returnWhenNull;
+            return defaultValue;
         }
         return classArray(objects);
     }
@@ -53,13 +53,13 @@ public abstract class BeanUtils {
     /**
      * 获取所给数组的 Class 类型数组,不允许数组中存在 null 元素.
      * 当传入的数组是 null 或者 length = 0 时,会将传入的 Class 数组作为返回值返回。
-     * @param returnWhenNull
+     * @param defaultValue
      * @param objects
      * @return
      */
-    public static Class<?>[] defaultClassArray(Class<?>[] returnWhenNull , Object ... objects) {
+    public static Class<?>[] defaultClassArrayIfNull(Class<?>[] defaultValue , Object ... objects) {
         if (Objects.isNull(objects) || objects.length == 0) {
-            return returnWhenNull;
+            return defaultValue;
         }
         return classArray(objects);
     }

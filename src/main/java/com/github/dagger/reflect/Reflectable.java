@@ -148,7 +148,7 @@ public abstract class Reflectable {
      */
     public static <T> T construct(Class<T> cls , boolean declared , Object ... args) {
         Assert.notNull(cls , "cls must not be null");
-        return newInstance(constructor(cls, declared, BeanUtils.defaultClassArray(null , args)) , args);
+        return newInstance(constructor(cls, declared, BeanUtils.defaultClassArrayIfNull(null , args)) , args);
     }
 
     /**
@@ -211,7 +211,7 @@ public abstract class Reflectable {
      */
     public static <T> Constructor<T> constructor(Class<T> cls , boolean declared , Object ... args) {
         Assert.notNull(cls , "cls must not be null");
-        return constructor(cls , declared , BeanUtils.defaultClassArray(null , args));
+        return constructor(cls , declared , BeanUtils.defaultClassArrayIfNull(null , args));
     }
 
     /**

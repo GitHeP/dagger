@@ -34,8 +34,18 @@ public abstract class Assert {
         return ! isTrue(supplier);
     }
 
+    public static boolean isFalse(boolean bool) {
+        return isFalse(() -> bool);
+    }
+
+    public static boolean isTrue(boolean bool) {
+        return isTrue(() -> bool);
+    }
+
     public static boolean isTrue(BooleanSupplier supplier) {
         return supplier.getAsBoolean();
     }
+
+
 
 }
