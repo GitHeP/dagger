@@ -54,7 +54,7 @@ public abstract class Assert {
         return isTrue(() -> expression);
     }
 
-    public static boolean logicNot(boolean expression) {
+    public static boolean not(boolean expression) {
         return !expression;
     }
 
@@ -63,7 +63,7 @@ public abstract class Assert {
      * @param expression
      * @return
      */
-    public static boolean logicAnd(boolean ... expression) {
+    public static boolean and(boolean ... expression) {
         notNull(expression , "expression must not be null");
         notEmpty("expression must not be empty" , expression);
         boolean result = true;
@@ -81,13 +81,32 @@ public abstract class Assert {
      * @param expression
      * @return
      */
-    public static boolean logicOr(boolean ... expression) {
+    public static boolean or(boolean ... expression) {
         notNull(expression , "expression must not be null");
         notEmpty("expression must not be empty" , expression);
         boolean result = false;
         for (boolean current : expression) {
             if (isTrue(current)) {
                 result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 逻辑异或
+     * @param expression
+     * @return
+     */
+    public static boolean xor(boolean ... expression) {
+        notNull(expression , "expression must not be null");
+        notEmpty("expression must not be empty" , expression);
+        boolean result = expression[0];
+        for (int i = 1 ; i < expression.length ; i++) {
+            boolean current = expression[i];
+            result = result ^ current;
+            if (isFalse(result)) {
                 break;
             }
         }
