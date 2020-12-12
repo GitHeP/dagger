@@ -29,23 +29,69 @@ public abstract class Assert {
         }
     }
 
+    public static <T> void notEmpty(String msg , T ... t) {
+        notNull(t , msg);
+        if (t.length == 0) {
+            throw new IllegalArgumentException(msg);
+        }
+    }
+
+
 
     public static boolean isFalse(BooleanSupplier supplier) {
         return ! isTrue(supplier);
-    }
-
-    public static boolean isFalse(boolean bool) {
-        return isFalse(() -> bool);
-    }
-
-    public static boolean isTrue(boolean bool) {
-        return isTrue(() -> bool);
     }
 
     public static boolean isTrue(BooleanSupplier supplier) {
         return supplier.getAsBoolean();
     }
 
+    public static boolean isFalse(boolean expression) {
+        return isFalse(() -> expression);
+    }
 
+    public static boolean isTrue(boolean expression) {
+        return isTrue(() -> expression);
+    }
+
+    public static boolean logicNot(boolean expression) {
+        return !expression;
+    }
+
+    /**
+     * 逻辑与
+     * @param expression
+     * @return
+     */
+    public static boolean logicAnd(boolean ... expression) {
+        notNull(expression , "expression must not be null");
+        notEmpty("expression must not be empty" , expression);
+        boolean result = true;
+        for (boolean current : expression) {
+            if (isFalse(current)) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 逻辑或
+     * @param expression
+     * @return
+     */
+    public static boolean logicOr(boolean ... expression) {
+        notNull(expression , "expression must not be null");
+        notEmpty("expression must not be empty" , expression);
+        boolean result = false;
+        for (boolean current : expression) {
+            if (isTrue(current)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 
 }

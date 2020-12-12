@@ -1,5 +1,7 @@
 package com.github.dagger.lang;
 
+import com.github.dagger.reflect.Reflectable;
+
 import java.util.Objects;
 
 /**
@@ -67,5 +69,47 @@ public abstract class ObjectUtils {
             equalAll = equalAll && equals;
         }
         return equalAll;
+    }
+
+    /**
+     * objects 中包含 null 值就返回 true , 反之返回 false.
+     * @param objects
+     * @return
+     */
+    public static boolean containsNull(Object ... objects) {
+        Assert.notEmpty(objects , "objects must not be empty");
+        boolean containsNull = false;
+        for (Object object : objects) {
+            if (Objects.isNull(object)) {
+                containsNull = true;
+                break;
+            }
+        }
+
+        return containsNull;
+    }
+
+    /**
+     * objects 中包含 null 值就返回 false , 反之返回 true.
+     * @param objects
+     * @return
+     */
+    public static boolean notContainsNull(Object ... objects) {
+       return ! containsNull(objects);
+    }
+
+    public static boolean isPrimitiveOrWrapper(final Object object) {
+        Assert.notNull(object, "object must not be null");
+        Class<Object> aClass = Reflectable.toClass(object);
+        if (aClass == null) {
+            return false;
+        }
+
+        return aClass.isPrimitive() || isPrimitiveWrapper(aClass);
+    }
+
+    public static boolean isPrimitiveWrapper(Class cls) {
+
+        return true;
     }
 }
